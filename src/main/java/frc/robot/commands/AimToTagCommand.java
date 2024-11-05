@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -7,15 +8,16 @@ import frc.robot.lib.util.JoystickValues;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.joystick.JoystickSubsystem;
 
-//TODO: Complete this function to Aim the robot towards the target
-public class AimToSpeakerCommand extends Command{
-    DriveSubsystem drive;
+public class AimToTagCommand extends Command{
+     DriveSubsystem drive;
     JoystickSubsystem joysticks;
 
     JoystickValues leftJoystickValues;
     JoystickValues rightJoystickValues;
 
-    public AimToSpeakerCommand(DriveSubsystem drive, JoystickSubsystem joysticks){
+    PIDController yawController;
+
+    public AimToTagCommand(DriveSubsystem drive, JoystickSubsystem joysticks){
         this.drive = drive;
         this.joysticks = joysticks;
 
@@ -23,6 +25,8 @@ public class AimToSpeakerCommand extends Command{
 
         leftJoystickValues = new JoystickValues(0, 0);
         rightJoystickValues = new JoystickValues(0, 0);
+
+        yawController = new PIDController(0, 0, 0);
     }
 
     @Override
@@ -45,8 +49,9 @@ public class AimToSpeakerCommand extends Command{
         chassisSpeeds.vxMetersPerSecond = leftJoystickValues.x * Constants.Drive.MAX_VELOCITY;
         chassisSpeeds.vyMetersPerSecond = leftJoystickValues.y * Constants.Drive.MAX_VELOCITY;
 
-        /* *********************************** */
-        // Use the same logic as in AimToTagCommand here for yaw aiming
+        /* ******************************************************* */
+        double rotSpeed = yawController.calculate(0);   //Here, you can use a PID loop to control the yaw orientation of the robot
+        chassisSpeeds.omegaRadiansPerSecond = rotSpeed;
 
         drive.set(chassisSpeeds);
 

@@ -12,6 +12,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants;
@@ -72,7 +73,7 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
 
 
         if(inputs.leftTagsSeen == 1){
-            inputs.leftAmbiguity = targets.get(0).getPoseAmbiguity();   //<-- TODO: More testing with this. May be giving periodic zeroes
+            inputs.leftAmbiguity = targets.get(0).getPoseAmbiguity();
         }
         else{
             inputs.leftAmbiguity = 0;
@@ -108,7 +109,7 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
 
 
         if(inputs.rightTagsSeen == 1){
-            inputs.rightAmbiguity = targets.get(0).getPoseAmbiguity();   //<-- TODO: More testing with this. May be giving periodic zeroes
+            inputs.rightAmbiguity = targets.get(0).getPoseAmbiguity();
         }
         else{
             inputs.rightAmbiguity = 0;
@@ -126,9 +127,4 @@ public class AprilTagIOPhotonVision implements AprilTagIO{
             inputs.rightTimeStamp = r.getTimestampSeconds();
         }
     }
-
-    public void switchPipeline(){
-
-    }
-    
 }
